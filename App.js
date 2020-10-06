@@ -1,20 +1,38 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
-import { Button } from 'react-native-paper';
+import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
+// import { Button } from 'react-native-paper';
 
 class App extends React.Component {
+
+  
+
+  calcularIMC = () => {
+    const peso = 100;
+    const altura = 1.80;
+
+    const imc = peso / (altura * altura);
+    alert(imc);
+  }
+
   render() {
+
+    const imc = 25;
+    const legenda = 'Normal';
+
+    // imc = peso / altura 2
+
+
     return(
       <View style={styles.app}>
         <Text style={styles.legenda}>Seu IMC</Text>
         <View>
-          <Text style={styles.resultado}>25</Text>
-          <Text style={styles.diagnostico}>Normal</Text>
+          <Text style={styles.resultado}>{imc}</Text>
+          <Text style={styles.diagnostico}>{legenda}</Text>
         </View>
         <View>
           <TextInput style={styles.peso}/>
           <TextInput style={styles.altura}/>
-          <Button>Calcular</Button>
+          <Button title="Calcular" onPress={this.calcularIMC} />
         </View>
       </View>
     );
