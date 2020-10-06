@@ -5,15 +5,15 @@ import { TextInput, Button } from 'react-native-paper';
 class App extends React.Component {
 
   state = {
-    peso: 100,
-    altura: 1.80,
+    weight: 0,
+    height: 0,
     imc: 0,
-    legenda: 'Indeterminado',
+    subtitle: 'Indeterminate',
     cor: '#bdc3c7'
   };
 
-  calcularIMC = () => {
-    const result = this.state.peso / (this.state.altura * this.state.altura);
+  calculateIMC = () => {
+    const result = this.state.weight / (this.state.height * this.state.height);
 
     this.setState({
       imc: result.toFixed(1)
@@ -21,69 +21,80 @@ class App extends React.Component {
 
     if (result < 18.5) {
       this.setState({
-        legenda: 'Abaixo do Peso',
-        cor: '#e74c3c'
+        subtitle: 'Under weight',
+        color: '#e74c3c',
+        weight: 0,
+        height: 0
       });
+      
     } else if (result >= 18.5 && result < 25) {
       this.setState({
-        legenda: 'Peso Normal',
-        cor: '#2ecc71'
+        subtitle: 'Normal weight',
+        color: '#2ecc71',
       });
+      
     } else if (result >= 25 && result < 30) {
       this.setState({
-        legenda: 'Sobrepeso',
-        cor: '#f1c40f'
+        subtitle: 'Overweight',
+        color: '#f1c40f',
+        weight: 0,
+        height: 0,
       });
-    } else if (result >= 30 && result < 40) {
+    } else if (result >= 30 && result < 35) {
       this.setState({
-        legenda: 'Obesidade',
-        cor: '#e67e22'
+        subtitle: 'Grade 1 obesity',
+        color: '#e67e22',
+        weight: 0,
+        height: 0,
       });
-    } else if (result >= 40) {
+    } else if (result >= 35 && result < 40) {
       this.setState({
-        legenda: 'Obesidade Grave',
-        cor: '#e74c3c'
+        subtitle: 'Grade 2 obesity - Severe',
+        color: '#e74c3c',
+        weight: 0,
+        height: 0,  
+      });
+    } else {
+      this.setState({
+        subtitle: 'Grade 3 obesity - Morbid',
+        color: '#e74c3c',
+        weight: 0,
+        height: 0,
       });
     }
   }
 
   render() {
 
-    // const imc = 25;
-    // const legenda = 'Normal';
-
-    // imc = peso / altura 2
-
-
     return(
       <View style={styles.app}>
-        <Text style={styles.legenda}>Seu IMC</Text>
+        <Text style={styles.subtitle}>Your IMC</Text>
 
-        <View style={[styles.painel, {backgroundColor: this.state.cor}]}>
-          <Text style={styles.resultado}>{this.state.imc}</Text>
-          <Text style={styles.diagnostico}>{this.state.legenda}</Text>
+        <View style={[styles.panel, {backgroundColor: this.state.color}]}>
+          <Text style={styles.result}>{this.state.imc}</Text>
+          <Text style={styles.diagnosis}>{this.state.subtitle}</Text>
         </View>
 
         <View>
           <TextInput 
-            style={styles.peso}
-            label="Peso"
+            style={styles.weight}
+            label="Weight"
             onChangeText={value => {
               this.setState({
-                peso: value.replace(',', '.')
+                weight: value.replace(',', '.')
               })
             }}  
           />
           <TextInput 
-            style={styles.altura}
-            label="Altura"
+            style={styles.height}
+            label="Height"
             onChangeText={value => {
               this.setState({
-                altura: value.replace(',', '.')
+                height: value.replace(',', '.')
               })
             }} 
           />
-          <Button mode='contained' onPress={this.calcularIMC}>Calcular</Button>
+          <Button mode='contained' onPress={this.calculateIMC}>Calculate</Button>
         </View>
       </View>
     );
@@ -94,30 +105,30 @@ const styles = StyleSheet.create({
   app: {
     padding: 10
   },
-  painel: {
+  panel: {
     alignSelf: 'center',
     borderRadius: 5,
     width: 150,
     marginVertical: 10,
     padding: 8
   },
-  legenda: {
+  subtitle: {
     textAlign: 'center',
     fontWeight: 'bold'
   },
-  resultado: {
+  result: {
     textAlign: 'center',
     fontSize: 22,
     fontWeight: 'bold'
   },
-  diagnostico: {
+  diagnosis: {
     textAlign: 'center',
     fontSize: 16
   },
-  peso: {
+  weight: {
     marginVertical: 10
   },
-  altura: {
+  height: {
     marginVertical: 10
   }
 });
