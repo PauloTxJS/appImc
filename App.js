@@ -15,7 +15,7 @@ class App extends React.Component {
     const result = this.state.peso / (this.state.altura * this.state.altura);
 
     this.setState({
-      imc: result
+      imc: result.toFixed(1)
     });
 
     if (result < 18.5) {
@@ -57,8 +57,22 @@ class App extends React.Component {
           <Text style={styles.diagnostico}>{this.state.legenda}</Text>
         </View>
         <View>
-          <TextInput style={styles.peso}/>
-          <TextInput style={styles.altura}/>
+          <TextInput 
+            style={styles.peso}
+            onChangeText={value => {
+              this.setState({
+                peso: value.replace(',', '.')
+              })
+            }}  
+          />
+          <TextInput 
+            style={styles.altura}
+            onChangeText={value => {
+              this.setState({
+                altura: value.replace(',', '.')
+              })
+            }} 
+          />
           <Button title="Calcular" onPress={this.calcularIMC} />
         </View>
       </View>
